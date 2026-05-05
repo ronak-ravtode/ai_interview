@@ -148,7 +148,7 @@ const generateQuestions = async (req, res) => {
             return res.status(500).json({ message: 'AI response is required' });
         }
 
-        const questionsArray = aiResponse.split('\n').map(q => q.trim()).slice(0, 5);
+        const questionsArray = aiResponse.split('\n').map(q => q.trim()).filter(q => q).slice(0, 5);
 
         if (questionsArray.length === 0) {
             return res.status(500).json({ message: 'AI failed to generate questions' });

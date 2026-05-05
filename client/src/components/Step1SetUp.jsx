@@ -20,6 +20,7 @@ const Step1SetUp = ({ onStart }) => {
   const [resumeText, setResumeText] = React.useState('')
   const [analyzeDone, setAnalyzeDone] = React.useState(false)
   const [analyzing, setAnalyzing] = React.useState(false)
+  const [error, setError] = React.useState('')
 
   const handleUploadResume = async () => {
     if (!resumeFile || analyzing) {
@@ -44,6 +45,7 @@ const Step1SetUp = ({ onStart }) => {
   }
   const handleStart = async () => {
     setLoading(true)
+    setError('')
     try {
       const result = await axios.post(`${ServerURL}/api/interview/generate-questions`, { role, experience, mode, resumeText, projects, skills }, { withCredentials: true })
       console.log(result.data)
@@ -53,6 +55,8 @@ const Step1SetUp = ({ onStart }) => {
       setLoading(false)
       onStart(result.data)
     } catch (error) {
+      const msg = error.response?.data?.message || error.message
+      setError(msg)
       console.log(error)
       setLoading(false)
     }
@@ -177,6 +181,7 @@ const Step1SetUp = ({ onStart }) => {
             >
               {loading ? "Starting..." : "Start Interview"}
             </motion.button>
+            {error && <p className='text-red-500 text-center mt-2'>{error}</p>}
           </div>
         </motion.div>
       </div>
