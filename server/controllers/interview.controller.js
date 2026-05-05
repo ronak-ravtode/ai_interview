@@ -71,7 +71,7 @@ const analyzeResume = async (req, res) => {
 
 const generateQuestions = async (req, res) => {
     try {
-        const { role, experience, mode, resumeText, projects, skills } = req.body;
+        let { role, experience, mode, resumeText, projects, skills } = req.body;
 
         role = role?.trim() || '';
         experience = experience?.trim() || '';
